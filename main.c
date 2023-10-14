@@ -8,11 +8,26 @@ int main(int argc,const char* argv[]){
     initVM();
     Chunk chunk;
     initChunk(&chunk);
-    int constant = addConstant(&chunk, 122);
-    writeChunk(&chunk, OP_CONSTANT, 91);
-    writeChunk(&chunk, constant, 91);
-    writeChunk(&chunk, OP_RETURN, 91);
-    disassembleChunk(&chunk,"test chunk");
+     int constant = addConstant(&chunk, 1.2);
+  writeChunk(&chunk, OP_CONSTANT, 123);
+  writeChunk(&chunk, constant, 123);
+
+  constant = addConstant(&chunk, 3.4);
+  writeChunk(&chunk, OP_CONSTANT, 123);
+  writeChunk(&chunk, constant, 123);
+
+  writeChunk(&chunk, OP_ADDITION, 123);
+
+  constant = addConstant(&chunk, 5.6);
+  writeChunk(&chunk, OP_CONSTANT, 123);
+  writeChunk(&chunk, constant, 123);
+
+  writeChunk(&chunk, OP_DIVIDE, 123);
+  writeChunk(&chunk, OP_NEGATE, 123);
+
+  writeChunk(&chunk, OP_RETURN, 123);
+
+    //disassembleChunk(&chunk,"test chunk");
     interpret(&chunk);
     freeVM();
     freeChunk(&chunk);
