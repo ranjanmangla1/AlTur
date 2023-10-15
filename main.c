@@ -3,6 +3,8 @@
 #include "debug.c"
 #include "value.c"
 #include "vm.c"
+#include "compiler.c"
+#include "scanner.c"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +14,7 @@ static void repl(){
   char line[1024];
   for(;;){
     printf("> ");
-    if(!ifgets(line,sizeof(line),stdin)){
+    if(!fgets(line,sizeof(line),stdin)){
       printf("\n");
       break;
     }
@@ -65,7 +67,7 @@ int main(int argc,const char* argv[]){
     }else if(argc == 2){
       runFile(argv[1]);
     }else{
-      printf(stderr,"Usage : clox [path]\n");
+      fprintf(stderr,"Usage : clox [path]\n");
       exit(64);
     }
 
