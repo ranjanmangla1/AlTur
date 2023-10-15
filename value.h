@@ -6,6 +6,9 @@
 typedef struct Obj Obj;
 typedef struct ObjString ObjString;
 
+typedef struct Obj Obj;
+typedef struct ObjString ObjString;
+
 typedef enum {
     VAL_BOOL,
     VAL_NIL,
@@ -34,6 +37,7 @@ bool valuesEqual(Value a,Value b);
 #define AS_OBJ(value)     ((value).as.obj)
 #define AS_BOOL(value) ((value).as.boolean)
 #define AS_NUMBER(value) ((value).as.number)
+#define AS_OBJ(value)  ((value).as.obj)
 
 // this is for typecasting of data type
 #define BOOL_VAL(value) ((Value){VAL_BOOL, {.boolean = value}})
