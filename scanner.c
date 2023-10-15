@@ -31,7 +31,7 @@ static bool isAtEnd(){
     return *scanner.current=='\0';
 }
 
-static char advance(){
+static char advanceChar(){
     scanner.current++;
     return scanner.current[-1];
 }
@@ -77,15 +77,15 @@ static void skipWhiteSpace(){
             case ' ':
             case '\r':
             case '\t':
-             advance();
+             advanceChar();
              break;
             case '\n':
              scanner.line++;
-             advance();
+             advanceChar();
              break;
             case '/':
               if (peekNext()=='/'){
-                 while(peek()!='\n' && !isAtEnd()) advance();
+                 while(peek()!='\n' && !isAtEnd()) advanceChar();
               }else{
                 return;
               }
@@ -131,17 +131,17 @@ static TokenType identifierType(){
 }
 
 static Token identifier(){
-    while(isAlpha(peek()) || isDigit(peek())) advance();
+    while(isAlpha(peek()) || isDigit(peek())) advanceChar();
     return makeToken(identifierType());
 }
 
-static Token number(){
-   while( isDigit(peek()) ) advance();
+static Token numberFun(){
+   while( isDigit(peek()) ) advanceChar();
 
    if(peek()=='.' && isDigit(peekNext())){
-    advance();
+    advanceChar();
 
-    while( isDigit(peek()) ) advance();
+    while( isDigit(peek()) ) advanceChar();
    }
    return makeToken(TOKEN_NUMBER);
 
@@ -150,12 +150,12 @@ static Token number(){
 static Token string (){
   while(peek()!= '"' && !isAtEnd()) {
   if(peek()== '\n') scanner.line++;
-  advance();
+  advanceChar();
   }
 
   if(isAtEnd()) return errorToken("Unterminated String");
 
-  advance();
+  advanceChar();
 
   return makeToken(TOKEN_STRING);
 }
@@ -166,10 +166,10 @@ Token scanToken(){
 
     if(isAtEnd()) return makeToken(TOKEN_EOF);
     
-    char c = advance();
+    char c = advanceChar();
     
     if(isAlpha(c)) return identifier();
-    if(isDigit(c))  return  number();
+    if(isDigit(c))  return  numberFun();
 
    switch (c) {
     case '(': return makeToken(TOKEN_LEFT_PAREN);
