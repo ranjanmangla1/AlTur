@@ -4,32 +4,33 @@
 #include "common.h"
 #include "value.h"
 
-#define OBJ_TYPE(value)   (AS_OBJ(value)->type)
-// we did not declare the function in macro as it will get evaluted twice when declared in macro
-#define IS_STRING(value)  isObjType(value,OBJ_STRING)
+#define OBJ_TYPE(value)        (AS_OBJ(value)->type)
 
-#define AS_STRING(value) ((ObjString*) AS_OBJ(value))
-#define AS_CSTRING(value) (((ObjString*)AS_OBJ(value))->chars)
+#define IS_STRING(value)       isObjType(value, OBJ_STRING)
 
+#define AS_STRING(value)       ((ObjString*)AS_OBJ(value))
+#define AS_CSTRING(value)      (((ObjString*)AS_OBJ(value))->chars)
 
-typedef enum{
-    OBJ_STRING,
-}ObjType;
+typedef enum {
+  OBJ_STRING,
+} ObjType;
 
-struct Obj{
-    ObjType type;
+struct Obj {
+  ObjType type;
 };
 
 struct ObjString {
-    Obj  Obj;
-    int length;
-    char* chars;
+  Obj obj;
+  int length;
+  char* chars;
 };
 
+ObjString* takeString(char* chars, int length);
 ObjString* copyString(const char* chars, int length);
+void printObject(Value value);
 
-static inline bool isObjType(Value value,ObjType type){
-    return  IS_OBJ(value) && AS_OBJ(value)->type==type;
+static inline bool isObjType(Value value, ObjType type) {
+  return IS_OBJ(value) && AS_OBJ(value)->type == type;
 }
 
 #endif
