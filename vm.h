@@ -4,6 +4,7 @@
 #include "chunk.h"
 #include "value.h"
 
+
 #define STACK_MAX 256
 
 typedef struct  
@@ -12,13 +13,16 @@ typedef struct
     uint8_t* ip;  // instruction pointer
     Value stack[STACK_MAX];
     Value* stackTop;
-} VM;
+    Obj* objects;
+}VM;
 
 typedef enum {
     INTERPRET_OK,
     INTERPRET_RUNTIME_ERROR,
     INTERPRET_COMPILE_ERROR,
 } InterpretResult;
+
+extern VM vm;
 
 void initVM();
 void freeVM();
