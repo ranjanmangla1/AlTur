@@ -20,7 +20,7 @@ void initScanner(const char* source){
 }
 
 static bool isAlpha(char c){
-    return (c>='a'&& c>='z')|| c=='_' || (c>='A'&& c<='Z');
+    return (c>='a'&& c<='z')|| c=='_' || (c>='A'&& c<='Z');
 }
  
 static bool isDigit(char c){
