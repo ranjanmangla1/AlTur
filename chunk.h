@@ -9,6 +9,7 @@ typedef enum {
     OP_CONSTANT,
     OP_RETURN,
     OP_NEGATE,
+    OP_PRINT,
     OP_ADDITION,
     OP_SUBTRACTION,
     OP_MULTIPLY,
