@@ -1,0 +1,3 @@
+var breakfast = "aloopuri"; 
+breakfast="beagals"; 
+print breakfast;
