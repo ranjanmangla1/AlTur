@@ -1,5 +1,4 @@
-var a = 1;
-{
-    var a = a;
-    print a;
+var v = 10;
+if(11 == 10){
+    print "yes";
 }
