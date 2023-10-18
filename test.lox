@@ -1,3 +1,5 @@
-var breakfast = "aloopuri"; 
-breakfast="beagals"; 
-print breakfast;
+var a = 1;
+{
+    var a = a;
+    print a;
+}
