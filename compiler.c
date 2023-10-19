@@ -42,6 +42,7 @@ typedef struct {
 typedef struct {
     Token name;
     int depth;
+    bool isCaptured;
 } Local;
 
 typedef struct {
@@ -54,7 +55,7 @@ typedef enum {
     TYPE_SCRIPT,
 } FunctionType;
 
-typedef struct {
+typedef struct Compiler {
     struct Compiler* enclosing;
     ObjFunction* function;
     FunctionType type;
@@ -200,6 +201,7 @@ static void initCompiler(Compiler* compiler,FunctionType type) {
     }
     Local* local = &current->locals[current->localCount++];
     local->depth = 0;
+    local->isCaptured = false;
     local->name.start="";
     local->name.length = 0;
 }
@@ -226,7 +228,11 @@ static void endScope() {
     
     // freeing slots taken by local vars on the stack  
     while(current->localCount > 0 && current->locals[current->localCount - 1].depth > current->scopeDepth) {
-       emitByte(OP_POP);
+       if(current->locals[current->localCount -1 ].isCaptured){
+            emitByte(OP_CLOSE_UPVALUE);
+       }else{
+        emitByte(OP_POP);
+       }
        current->localCount--; 
     }
 }
@@ -280,13 +286,14 @@ static int addUpvalue(Compiler* compiler, uint8_t index,bool isLocal) {
 
 static int resolveUpvalue(Compiler* compiler, Token* name) {
     if(compiler->enclosing == NULL) return -1;
-    int local = resolveLocal(&compiler->enclosing, name);
+    int local = resolveLocal(compiler->enclosing, name);
     if(local != -1){
+        compiler->enclosing->locals[local].isCaptured = true;
         return addUpvalue(compiler,(uint8_t)local, true);
     }
     
     // calling recursively
-    int upvalue = resolveUpvalue(&compiler->enclosing,name);
+    int upvalue = resolveUpvalue(compiler->enclosing,name);
     if(upvalue != -1){
         return addUpvalue(compiler,(uint8_t)upvalue, false);
     }
@@ -301,6 +308,7 @@ static void addLocal(Token name) {
     Local *local = &current->locals[current->localCount++];
     local->name = name;
     local -> depth = -1;
+    local->isCaptured = false;
 }
 
 static void declareVariable() {
