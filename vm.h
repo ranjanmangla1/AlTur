@@ -3,7 +3,7 @@
 
 #include "chunk.h"
 #include "value.h"
-#include"object.h"
+#include "object.h"
 #include "table.h"
 
 
@@ -11,7 +11,7 @@
 #define STACK_MAX (FRAMES_MAX * UINT8_COUNT)
 
 typedef struct {
-    ObjFunction* function;
+    ObjClosure* closure;
     uint8_t* ip;
     Value* slots;
 } CallFrame;
