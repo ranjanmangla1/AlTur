@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "type_traits": "c"
+        "*.ejs": "html",
+        "type_traits": "c",
+        "memory.h": "c"
     }
 }
